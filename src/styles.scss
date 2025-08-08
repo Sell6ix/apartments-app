@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+$primary: mat.define-palette(mat.$indigo-palette);
+$accent: mat.define-palette(mat.$pink-palette);
+$theme: mat.define-light-theme((
+  color: ( primary: $primary, accent: $accent )
+));
+@include mat.all-component-themes($theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif; background:#f7f8fa; }
+mat-card { border-radius: 10px; }
+.mat-mdc-form-field { width: 100%; }

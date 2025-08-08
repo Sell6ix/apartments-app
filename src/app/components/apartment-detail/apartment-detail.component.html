@@ -1,51 +1,21 @@
-<div class="container" *ngIf="apt">
-    <button (click)="back()">← Назад</button>
-    <h2>{{ apt.name }}</h2>
+<ng-container *ngIf="apartment">
+  <mat-card>
+    <mat-card-title>{{apartment.name}}</mat-card-title>
+    <mat-card-subtitle>{{apartment.address}}</mat-card-subtitle>
+  </mat-card>
 
-    <section>
-      <h3>Bookings</h3>
-      <ul>
-        <li *ngFor="let b of apt.bookings">
-          {{ b.tenantName }}: {{ b.checkIn | date:'mediumDate' }} — {{ b.checkOut | date:'mediumDate' }}
-          <button (click)="editBooking(b)">Edit</button>
-          <button (click)="deleteBooking(b)">Delete</button>
-        </li>
-      </ul>
-      <button (click)="openBookingModal()">Add booking</button>
-    </section>
-
-    <section>
-      <h3>Items</h3>
-      <ul>
-        <li *ngFor="let it of apt.items">
-          {{ it.name }} (x{{ it.quantity }}) — {{ it.condition }}
-          <button (click)="editItem(it)">Edit</button>
-          <button (click)="deleteItem(it)">Delete</button>
-        </li>
-      </ul>
-      <button (click)="openItemModal()">Add item</button>
-    </section>
-
-    <!-- Booking Modal -->
-    <div *ngIf="showBooking">
-      <form [formGroup]="bookingForm" (ngSubmit)="saveBooking()">
-        <input formControlName="tenantName" placeholder="Tenant" />
-        <input type="date" formControlName="checkIn" />
-        <input type="date" formControlName="checkOut" />
-        <button type="submit">Save</button>
-        <button type="button" (click)="closeBookingModal()">Cancel</button>
-      </form>
-    </div>
-
-    <!-- Item Modal -->
-    <div *ngIf="showItem">
-      <form [formGroup]="itemForm" (ngSubmit)="saveItem()">
-        <input formControlName="name" placeholder="Name" />
-        <input type="number" formControlName="quantity" />
-        <input formControlName="condition" placeholder="Condition" />
-        <button type="submit">Save</button>
-        <button type="button" (click)="closeItemModal()">Cancel</button>
-      </form>
-    </div>
-
-  </div>
+  <mat-tab-group>
+    <mat-tab label="Брони">
+      <app-booking-form [apartmentId]="apartment.id" (created)="onBookingCreated($event)"></app-booking-form>
+      <mat-list>
+        <mat-list-item *ngFor="let b of bookings">
+          <div matListItemTitle>{{b.guestName}}</div>
+          <div matListItemLine>{{b.checkIn | date}} — {{b.checkOut | date}}</div>
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+    <mat-tab label="Инвентарь">
+      <app-apartment-inventory [apartment]="apartment"></app-apartment-inventory>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>

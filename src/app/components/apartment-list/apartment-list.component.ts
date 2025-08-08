@@ -5,12 +5,12 @@ import { Apartment } from '../../models';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-@Component({ selector: 'app-apartment-list',standalone: true,
+@Component({ selector: 'app-apartment-list',
   imports: [CommonModule, RouterModule],
 templateUrl: './apartment-list.component.html', })
-export class ApartmentListComponent implements OnInit {
-  list: Apartment[] = [];
+export class ApartmentsListComponent implements OnInit {
+  apartments: Apartment[] = [];
   constructor(private api: ApiService, private router: Router) {}
-  ngOnInit() { this.api.listApartments().subscribe(r => this.list = r); }
-  open(id: number) { this.router.navigate(['/apartment', id]); }
+  ngOnInit(){ this.api.getApartments().subscribe(a => this.apartments = a); }
+  open(a: Apartment){ this.router.navigate(['/apartments', a.id]); }
 }

@@ -1,6 +1,9 @@
-<div class="container">
-    <h1>Квартиры</h1>
-    <ul>
-      <li *ngFor="let a of list" (click)="open(a.id)"> {{ a.name }} — {{ a.bookings.length }} bookings</li>
-    </ul>
+<mat-card>
+  <mat-card-title>Квартиры</mat-card-title>
+  <div class="grid">
+    <mat-card class="card" *ngFor="let a of apartments" (click)="open(a)">
+      <mat-card-title>{{a.name}}</mat-card-title>
+      <mat-card-subtitle>{{a.address}}</mat-card-subtitle>
+    </mat-card>
   </div>
+</mat-card>

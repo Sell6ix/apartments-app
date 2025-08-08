@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { Apartment, Booking, Item } from '../models';
+import { Apartment, Booking, InventoryItem, ApartmentInventory } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private base = environment.apiUrl + '/apartments';
+  private base = 'http://localhost:3000';
+
   constructor(private http: HttpClient) {}
 
-  listApartments(): Observable<Apartment[]> { return this.http.get<Apartment[]>(this.base); }
-  getApartment(id: number): Observable<Apartment> { return this.http.get<Apartment>(`${this.base}/${id}`); }
+  getApartments() { return this.http.get<Apartment[]>(`${this.base}/apartments`); }
+  getApartment(id: number) { return this.http.get<any>(`${this.base}/apartments/${id}`); }
+  createApartment(payload: Partial<Apartment>) { return this.http.post<Apartment>(`${this.base}/apartments`, payload); }
 
-  addBooking(apartmentId: number, booking: Partial<Booking>) { return this.http.post<Booking>(`${this.base}/${apartmentId}/bookings`, booking); }
-  updateBooking(apartmentId: number, bookingId: number, booking: Partial<Booking>) { return this.http.put(`${this.base}/${apartmentId}/bookings/${bookingId}`, booking); }
-  removeBooking(apartmentId: number, bookingId: number) { return this.http.delete(`${this.base}/${apartmentId}/bookings/${bookingId}`); }
+  getBookings(apartmentId?: number) {
+    let params = new HttpParams();
+    if (apartmentId) params = params.set('apartmentId', apartmentId);
+    return this.http.get<Booking[]>(`${this.base}/bookings`, { params });
+  }
+  createBooking(payload: Booking) { return this.http.post<Booking>(`${this.base}/bookings`, payload); }
 
-  addItem(apartmentId: number, item: Partial<Item>) { return this.http.post<Item>(`${this.base}/${apartmentId}/items`, item); }
-  updateItem(apartmentId: number, itemId: number, item: Partial<Item>) { return this.http.put(`${this.base}/${apartmentId}/items/${itemId}`, item); }
-  removeItem(apartmentId: number, itemId: number) { return this.http.delete(`${this.base}/${apartmentId}/items/${itemId}`); }
+  getInventory() { return this.http.get<InventoryItem[]>(`${this.base}/inventory`); }
+  createInventory(payload: Partial<InventoryItem>) { return this.http.post<InventoryItem>(`${this.base}/inventory`, payload); }
+  linkInventory(apartmentId: number, payload: Partial<ApartmentInventory>) {
+    return this.http.post<ApartmentInventory>(`${this.base}/apartments/${apartmentId}/inventory`, payload);
+  }
 }

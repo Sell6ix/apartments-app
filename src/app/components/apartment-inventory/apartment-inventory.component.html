@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-title>Инвентарь</mat-card-title>
+  <form [formGroup]="form" (ngSubmit)="link()">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Предмет</mat-label>
+        <mat-select formControlName="inventoryItemId">
+          <mat-option *ngFor="let i of (items$|async)" [value]="i.id">{{i.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Количество</mat-label>
+        <input type="number" matInput formControlName="quantity" min="1">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Состояние</mat-label>
+        <mat-select formControlName="condition">
+          <mat-option value="good">Хорошее</mat-option>
+          <mat-option value="needs-repair">Нужен ремонт</mat-option>
+          <mat-option value="broken">Сломан</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="full">
+      <mat-label>Заметки</mat-label>
+      <textarea matInput formControlName="notes"></textarea>
+    </mat-form-field>
+    <button mat-stroked-button color="primary" type="submit">Добавить/Обновить</button>
+  </form>
+
+  <table mat-table [dataSource]="apartment.inventories" class="mat-elevation-z1 inv-table">
+    <ng-container matColumnDef="item"><th mat-header-cell *matHeaderCellDef>Предмет</th><td mat-cell *matCellDef="let r">{{r.item?.name}}</td></ng-container>
+    <ng-container matColumnDef="qty"><th mat-header-cell *matHeaderCellDef>Кол-во</th><td mat-cell *matCellDef="let r">{{r.quantity}}</td></ng-container>
+    <ng-container matColumnDef="cond"><th mat-header-cell *matHeaderCellDef>Сост.</th><td mat-cell *matCellDef="let r">{{r.condition}}</td></ng-container>
+    <ng-container matColumnDef="notes"><th mat-header-cell *matHeaderCellDef>Заметки</th><td mat-cell *matCellDef="let r">{{r.notes}}</td></ng-container>
+    <tr mat-header-row *matHeaderRowDef="['item','qty','cond','notes']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['item','qty','cond','notes'];"></tr>
+  </table>
+</mat-card>

@@ -1,8 +1,10 @@
-export interface Apartment {
-  id: number;
-  name: string;
-  bookings: Booking[];
-  items: Item[];
+export interface Apartment { id: number; name: string; address: string; }
+export interface Booking {
+  id?: number; apartmentId: number; guestName: string;
+  checkIn: string; checkOut: string; status?: string; notes?: string;
 }
-export interface Booking { id: number; tenantName: string; checkIn: string; checkOut: string; }
-export interface Item { id: number; name: string; quantity: number; condition: string; }
+export interface InventoryItem { id: number; name: string; category?: string; description?: string; }
+export interface ApartmentInventory {
+  id: number; apartmentId: number; inventoryItemId: number;
+  quantity: number; condition?: string; notes?: string; item?: InventoryItem;
+}

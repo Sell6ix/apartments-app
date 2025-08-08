@@ -1,0 +1,30 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row">
+      <mat-form-field>
+        <mat-label>Гость</mat-label>
+        <input matInput formControlName="guestName">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Заезд</mat-label>
+        <input matInput [matDatepicker]="inDp" formControlName="checkIn">
+        <mat-datepicker-toggle matSuffix [for]="inDp"></mat-datepicker-toggle>
+        <mat-datepicker #inDp></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Выезд</mat-label>
+        <input matInput [matDatepicker]="outDp" formControlName="checkOut">
+        <mat-datepicker-toggle matSuffix [for]="outDp"></mat-datepicker-toggle>
+        <mat-datepicker #outDp></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="full">
+      <mat-label>Заметки</mat-label>
+      <textarea matInput formControlName="notes" rows="2"></textarea>
+    </mat-form-field>
+    <div class="actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading">Добавить</button>
+      <span class="error" *ngIf="error">{{error}}</span>
+    </div>
+  </form>
+</mat-card>
