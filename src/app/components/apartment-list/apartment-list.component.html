@@ -1,0 +1,6 @@
+<div class="container">
+    <h1>Квартиры</h1>
+    <ul>
+      <li *ngFor="let a of list" (click)="open(a.id)"> {{ a.name }} — {{ a.bookings.length }} bookings</li>
+    </ul>
+  </div>

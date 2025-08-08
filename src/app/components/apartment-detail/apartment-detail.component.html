@@ -1,0 +1,51 @@
+<div class="container" *ngIf="apt">
+    <button (click)="back()">← Назад</button>
+    <h2>{{ apt.name }}</h2>
+
+    <section>
+      <h3>Bookings</h3>
+      <ul>
+        <li *ngFor="let b of apt.bookings">
+          {{ b.tenantName }}: {{ b.checkIn | date:'mediumDate' }} — {{ b.checkOut | date:'mediumDate' }}
+          <button (click)="editBooking(b)">Edit</button>
+          <button (click)="deleteBooking(b)">Delete</button>
+        </li>
+      </ul>
+      <button (click)="openBookingModal()">Add booking</button>
+    </section>
+
+    <section>
+      <h3>Items</h3>
+      <ul>
+        <li *ngFor="let it of apt.items">
+          {{ it.name }} (x{{ it.quantity }}) — {{ it.condition }}
+          <button (click)="editItem(it)">Edit</button>
+          <button (click)="deleteItem(it)">Delete</button>
+        </li>
+      </ul>
+      <button (click)="openItemModal()">Add item</button>
+    </section>
+
+    <!-- Booking Modal -->
+    <div *ngIf="showBooking">
+      <form [formGroup]="bookingForm" (ngSubmit)="saveBooking()">
+        <input formControlName="tenantName" placeholder="Tenant" />
+        <input type="date" formControlName="checkIn" />
+        <input type="date" formControlName="checkOut" />
+        <button type="submit">Save</button>
+        <button type="button" (click)="closeBookingModal()">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Item Modal -->
+    <div *ngIf="showItem">
+      <form [formGroup]="itemForm" (ngSubmit)="saveItem()">
+        <input formControlName="name" placeholder="Name" />
+        <input type="number" formControlName="quantity" />
+        <input formControlName="condition" placeholder="Condition" />
+        <button type="submit">Save</button>
+        <button type="button" (click)="closeItemModal()">Cancel</button>
+      </form>
+    </div>
+
+  </div>
